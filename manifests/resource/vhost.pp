@@ -180,6 +180,7 @@ define nginx::resource::vhost (
   $proxy_read_timeout           = $::nginx::config::proxy_read_timeout,
   $proxy_connect_timeout        = $::nginx::config::proxy_connect_timeout,
   $proxy_set_header             = [],
+  $proxy_ignore_headers		= undef,
   $proxy_cache                  = false,
   $proxy_cache_valid            = false,
   $proxy_method                 = undef,
@@ -291,6 +292,9 @@ define nginx::resource::vhost (
     validate_string($proxy_redirect)
   }
   validate_array($proxy_set_header)
+  if ($proxy_ignore_headers != undef) {
+    validate_string($proxy_ignore_headers)
+  }
   if ($proxy_cache != false) {
     validate_string($proxy_cache)
   }
@@ -494,6 +498,7 @@ define nginx::resource::vhost (
       proxy_cache_valid     => $proxy_cache_valid,
       proxy_method          => $proxy_method,
       proxy_set_header      => $proxy_set_header,
+      proxy_ignore_headers  => $proxy_ignore_headers,
       proxy_set_body        => $proxy_set_body,
       fastcgi               => $fastcgi,
       fastcgi_params        => $fastcgi_params,

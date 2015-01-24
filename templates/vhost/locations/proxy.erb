@@ -15,6 +15,9 @@
     <%- end -%>
 
 <% end -%>
+<% if @proxy_ignore_headers -%>
+    proxy_ignore_headers  <%= @proxy_ignore_headers %>;
+<% end -%>
 <% if @proxy_cache -%>
     proxy_cache           <%= @proxy_cache %>;
 <% end -%>

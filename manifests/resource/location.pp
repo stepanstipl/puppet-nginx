@@ -30,6 +30,7 @@
 #   [*proxy_connect_timeout*] - Override the default the proxy connect timeout
 #     value of 90 seconds
 #   [*proxy_set_header*]     - Array of vhost headers to set
+#   [*proxy_ignore_headers*] - List of headers to ignore
 #   [*fastcgi*]              - location of fastcgi (host:port)
 #   [*fastcgi_param*]        - Set additional custom fastcgi_params
 #   [*fastcgi_params*]       - optional alternative fastcgi_params file to use
@@ -140,6 +141,7 @@ define nginx::resource::location (
   $proxy_read_timeout   = $::nginx::config::proxy_read_timeout,
   $proxy_connect_timeout = $::nginx::config::proxy_connect_timeout,
   $proxy_set_header     = $::nginx::config::proxy_set_header,
+  $proxy_ignore_headers = undef,
   $fastcgi              = undef,
   $fastcgi_param        = undef,
   $fastcgi_params       = "${::nginx::config::conf_dir}/fastcgi_params",
@@ -204,6 +206,9 @@ define nginx::resource::location (
   validate_string($proxy_read_timeout)
   validate_string($proxy_connect_timeout)
   validate_array($proxy_set_header)
+  if ($proxy_ignore_headers != undef) {
+    validate_string($proxy_ignore_headers)
+  }
   if ($fastcgi != undef) {
     validate_string($fastcgi)
   }
